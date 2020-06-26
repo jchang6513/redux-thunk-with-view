@@ -3,15 +3,17 @@ import React from 'react';
 import './App.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { StoreState } from './store';
-import { counter as counterSlice } from './slice';
 import { getLog } from './middleWares/logger';
 import styled from 'styled-components';
+import { increase, decrease } from './actions';
 
-const Layout = styled.div`
+const Layout = styled.div.attrs(props => ({ hue: 0, ...props }))`
   display: flex;
   max-width: 900px;
   flex-direction: column;
   margin: 50px auto;
+  padding: 20px;
+  background-color: ${({ hue }) => `hsl(${hue}, 100%, 95%)`};
 `;
 
 const Flex = styled.div`
@@ -22,20 +24,20 @@ const Flex = styled.div`
 `;
 
 const Input = styled.input`
+  background: none;
   height: 36px;
   padding: 0 10px;
   font-size: 24px;
   text-align: right;
   width: 100px;
-  background: none;
   border: 1px solid #555;
   border-radius: 5px;
 `;
 
 const Button = styled.button`
+  background: none;
   height: 36px;
   width: 36px;
-  background-color: #fff;
   color: #000;
   font-size: 24px;
   border: 1px solid #555;
@@ -53,19 +55,27 @@ const Log = styled.div`
   }
 `;
 
+export type PageStates = {
+  layoutBgColor: number;
+};
+
+export const pageStates: PageStates = {
+  layoutBgColor: 0,
+};
+
 function App() {
   const dispatch = useDispatch();
   const logs = getLog();
   const counter = useSelector((store: StoreState) => store.counter);
   return (
-    <Layout>
+    <Layout hue={pageStates.layoutBgColor}>
       <Flex>
         <Input
           disabled
           value={counter}
         />
-        <Button onClick={() => dispatch(counterSlice.actions.increment())}>+</Button>
-        <Button onClick={() => dispatch(counterSlice.actions.decrement())}>-</Button>
+        <Button onClick={() => dispatch(increase())}>+</Button>
+        <Button onClick={() => dispatch(decrease())}>-</Button>
       </Flex>
       <Log>
         <p>Log: </p>
