@@ -5,7 +5,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { StoreState } from './store';
 import { getLog } from './middleWares/logger';
 import styled from 'styled-components';
-import { increase, decrease } from './actions';
+import { increase, decrease, changeColor } from './actions';
+import { connectViewStates } from './connectViewStates';
 
 const Layout = styled.div.attrs(props => ({ hue: 0, ...props }))`
   display: flex;
@@ -37,11 +38,12 @@ const Input = styled.input`
 const Button = styled.button`
   background: none;
   height: 36px;
-  width: 36px;
+  min-width: 36px;
   color: #000;
-  font-size: 24px;
+  font-size: 20px;
   border: 1px solid #555;
   border-radius: 5px;
+  padding: 5px 10px;
 `;
 
 const Log = styled.div`
@@ -55,20 +57,13 @@ const Log = styled.div`
   }
 `;
 
-export type PageStates = {
-  layoutBgColor: number;
-};
-
-export const pageStates: PageStates = {
-  layoutBgColor: 0,
-};
-
-function App() {
+const App = (props: any) => {
   const dispatch = useDispatch();
   const logs = getLog();
   const counter = useSelector((store: StoreState) => store.counter);
+
   return (
-    <Layout hue={pageStates.layoutBgColor}>
+    <Layout hue={props.viewStates.layoutBgColor}>
       <Flex>
         <Input
           disabled
@@ -76,6 +71,7 @@ function App() {
         />
         <Button onClick={() => dispatch(increase())}>+</Button>
         <Button onClick={() => dispatch(decrease())}>-</Button>
+        <Button onClick={() => dispatch(changeColor())}>Whatever</Button>
       </Flex>
       <Log>
         <p>Log: </p>
@@ -89,4 +85,4 @@ function App() {
   );
 };
 
-export default App;
+export default connectViewStates(App);
