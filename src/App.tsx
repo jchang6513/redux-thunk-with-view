@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import './App.css';
 import { useSelector, useDispatch } from 'react-redux';
@@ -8,13 +8,12 @@ import styled from 'styled-components';
 import { increase, decrease, changeColor } from './actions';
 import { connectViewStates } from './connectViewStates';
 
-const Layout = styled.div.attrs(props => ({ hue: 0, ...props }))`
+const Layout = styled.div`
   display: flex;
   max-width: 900px;
   flex-direction: column;
   margin: 50px auto;
   padding: 20px;
-  background-color: ${({ hue }) => `hsl(${hue}, 100%, 95%)`};
 `;
 
 const Flex = styled.div`
@@ -68,9 +67,18 @@ const App = (props: any) => {
   const dispatch = useDispatch();
   const logs = getLog();
   const counter = useSelector((store: StoreState) => store.counter);
+  const {
+    viewStates: {
+      layoutBgColor,
+    }
+  } = props;
+
+  useEffect(() => {
+    document.body.style.backgroundColor =`hsl(${layoutBgColor}, 100%, 95%)`
+  }, [layoutBgColor])
 
   return (
-    <Layout hue={props.viewStates.layoutBgColor}>
+    <Layout>
       <Flex>
         <Input
           disabled
