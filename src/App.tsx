@@ -51,9 +51,16 @@ const Log = styled.div`
   border-radius: 5px;
   padding: 5px 20px;
   min-width: 200px;
+  max-height: 50vh;
   margin-top: 10px;
+  overflow: scroll;
   > * {
     margin-bottom: 10px;
+  }
+  td {
+    padding-bottom: 5px;
+    padding-right: 10px;
+    min-width: 30px;
   }
 `;
 
@@ -75,11 +82,12 @@ const App = (props: any) => {
       </Flex>
       <Log>
         <p>Log: </p>
-        {logs.length > 0 && logs.map((log) => (
-          <div>
-            {log}
-          </div>
-        ))}
+        {logs.length > 0 && logs.map((log, index) => (
+          <tr key={index}>
+            <td>{index}: </td>
+            <td>{log}</td>
+          </tr>
+        )).slice(0).reverse()}
       </Log>
     </Layout>
   );
