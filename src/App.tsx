@@ -90,12 +90,18 @@ const App = (props: any) => {
       </Flex>
       <Log>
         <p>Log: </p>
-        {logs.length > 0 && logs.map((log, index) => (
-          <tr key={index}>
-            <td>{index}: </td>
-            <td>{log}</td>
-          </tr>
-        )).slice(0).reverse()}
+        { logs.length > 0 && (
+          <table>
+            <tbody>
+              {logs.map((log, index) => (
+                <tr key={index}>
+                  <td>{index}: </td>
+                  <td>{log}</td>
+                </tr>
+              )).slice(0).reverse()}
+            </tbody>
+          </table>
+        )}
       </Log>
     </Layout>
   );
