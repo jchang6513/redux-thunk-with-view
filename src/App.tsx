@@ -43,15 +43,20 @@ const Button = styled.button`
   border: 1px solid #555;
   border-radius: 5px;
   padding: 5px 10px;
+  outline-color: #555;
+  outline-width: 2px;
 `;
 
-const Log = styled.div`
+const BorderBox = styled.div`
   border: 1px solid #555;
   border-radius: 5px;
   padding: 5px 20px;
   min-width: 200px;
-  max-height: 50vh;
   margin-top: 10px;
+`
+
+const Events = styled.div`
+  max-height: 50vh;
   overflow: scroll;
   > * {
     margin-bottom: 10px;
@@ -86,23 +91,25 @@ const App = (props: any) => {
         />
         <Button onClick={() => dispatch(increase())}>+</Button>
         <Button onClick={() => dispatch(decrease())}>-</Button>
-        <Button onClick={() => dispatch(changeColor())}>Whatever</Button>
+        <Button onClick={() => dispatch(changeColor())}>RandomColor</Button>
       </Flex>
-      <Log>
-        <p>Log: </p>
+      <BorderBox>
+        <p>Dispatch Events: </p>
         { logs.length > 0 && (
-          <table>
-            <tbody>
-              {logs.map((log, index) => (
-                <tr key={index}>
-                  <td>{index}: </td>
-                  <td>{log}</td>
-                </tr>
-              )).slice(0).reverse()}
-            </tbody>
-          </table>
+          <Events>
+            <table>
+              <tbody>
+                {logs.map((log, index) => (
+                  <tr key={index}>
+                    <td>{index}: </td>
+                    <td>{log}</td>
+                  </tr>
+                )).slice(0).reverse()}
+              </tbody>
+            </table>
+          </Events>
         )}
-      </Log>
+      </BorderBox>
     </Layout>
   );
 };
